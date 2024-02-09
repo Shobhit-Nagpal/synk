@@ -69,7 +69,7 @@ class SynkClient {
     this.log(__dirname);
   }
 
-  async write(content: string, filename: string) {
+  write(content: string, filename: string) {
     if (!fileExists(filename)) {
       this.createFile(filename);
     }
