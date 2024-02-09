@@ -1,5 +1,10 @@
 # synk
 
+## About
+Synk is a JS client to perform file operations from your code. It is a practice project inspired from Supabase written in TypeScript.
+
+This was also an opportunity to try out Bun, an alternative runtime for NodeJS.
+
 To install dependencies:
 
 ```bash
