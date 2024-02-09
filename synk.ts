@@ -16,25 +16,17 @@ class SynkClient {
       return;
     }
 
-    fs.open(`${filename}`, "w", (err, _) => {
-      if (err) throw err;
-      this.log(`${filename} created!`);
-    });
+    fs.writeFileSync(filename, "");
   }
 
   removeFile(filename: string) {
-    fs.unlink(filename, (err) => {
-      if (err) {
-        if (err.code === "ENOENT") {
-          // The file does not exist
-          console.error(`${filename} does not exist`);
-        } else {
-          console.error(err.message);
-        }
-      } else {
-        this.log(`${filename} was deleted`);
-      }
-    });
+    try {
+      fs.unlinkSync(filename);
+      this.log(`${filename} removed successfully`);
+    } catch (err) {
+      console.error(err);
+      return;
+    }
   }
 
   mkDir(dirname: string) {
@@ -52,17 +44,7 @@ class SynkClient {
   }
 
   rmDir(dirname: string) {
-    fs.rmdir(`${dirname}`, (err) => {
-      if (err) {
-        if (err.code === "ENOENT") {
-          console.error(`${dirname} directory does not exist`);
-        } else {
-          console.error(err.message);
-        }
-      } else {
-        this.log(`${dirname} was deleted`);
-      }
-    });
+    fs.rmdirSync(dirname, {recursive: true});
   }
 
   pwd() {
@@ -74,13 +56,17 @@ class SynkClient {
       this.createFile(filename);
     }
 
-    fs.writeFile(filename, content, (err) => {
-      if (err) {
-        console.error(err);
-      } else {
-        return;
-      }
-    });
+    fs.writeFileSync(filename, content);
+  }
+
+  read(filename: string) {
+    if (!fileExists(filename)) {
+      console.error(`${filename} does not exist`);
+      return;
+    }
+
+    const content = fs.readFileSync(filename).toString();
+    return content;
   }
 }
 

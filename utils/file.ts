@@ -8,5 +8,6 @@ export function fileExists(filename: string) {
       return true;
     }
   }
+
   return false;
 }
