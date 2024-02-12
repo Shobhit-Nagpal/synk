@@ -1,5 +1,6 @@
 import fs from "fs";
 import { fileExists } from "./utils/file";
+import { API_KEY_DB } from "./utils/keys";
 
 class SynkClient {
 
@@ -84,5 +85,11 @@ class SynkClient {
 
 }
 
-const synk = new SynkClient();
-export default synk;
+export function createSynkClient(API_KEY: string) {
+  if (!API_KEY_DB.includes(API_KEY)) {
+    throw new Error("Not valid API key");
+  }
+  const synk = new SynkClient();
+  return synk;
+}
+

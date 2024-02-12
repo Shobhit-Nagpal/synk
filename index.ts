@@ -1,5 +1,7 @@
-import synk from "./synk";
+import { createSynkClient } from "./synk";
 import { $ } from "bun";
+
+const synk = createSynkClient("xyz");
 
 synk.log("Synk starting up...");
 synk.createFile("test.txt");
