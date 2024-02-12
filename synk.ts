@@ -2,12 +2,25 @@ import fs from "fs";
 import { fileExists } from "./utils/file";
 
 class SynkClient {
+
+  private filename = "";
+
   log(message: string) {
     console.log(message);
   }
 
   init() {
     this.log("Synk Client successfully initialized!");
+  }
+
+  from(filename: string) {
+    if (!fileExists(filename)) {
+      this.createFile(filename);
+    }
+
+    this.filename = filename;
+
+    return this;
   }
 
   createFile(filename: string) {
@@ -51,12 +64,12 @@ class SynkClient {
     this.log(__dirname);
   }
 
-  write(content: string, filename: string) {
-    if (!fileExists(filename)) {
-      this.createFile(filename);
+  write(content: string) {
+    if (!fileExists(this.filename)) {
+      this.createFile(this.filename);
     }
 
-    fs.writeFileSync(filename, content);
+    fs.appendFileSync(this.filename, content);
   }
 
   read(filename: string) {
@@ -68,6 +81,7 @@ class SynkClient {
     const content = fs.readFileSync(filename).toString();
     return content;
   }
+
 }
 
 const synk = new SynkClient();
